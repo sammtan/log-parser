@@ -1,0 +1,113 @@
+# Log Parser - Python Dependencies
+# =====================================
+# 
+# Core dependencies for the Log Parser tool providing intelligent log analysis
+# with pattern recognition, anomaly detection, and statistical reporting.
+#
+# Installation: pip install -r requirements.txt
+
+# Core Python libraries (built-in, no installation needed)
+# - sqlite3: Database operations for log storage and analysis
+# - re: Regular expression pattern matching for log parsing
+# - json: JSON data handling for configuration and reports
+# - csv: CSV report generation and data export
+# - argparse: Command-line interface parsing
+# - datetime: Timestamp parsing and temporal analysis
+# - collections: Data structures (defaultdict, Counter) for statistics
+# - statistics: Statistical analysis for anomaly detection
+# - pathlib: Modern path handling for file operations
+# - urllib.parse: URL parsing and encoding/decoding
+# - gzip: Compressed log file support (.gz files)
+# - zipfile: Compressed log file support (.zip files)
+# - hashlib: Hash computation for data integrity
+# - time: Performance timing and benchmarking
+
+# Web Interface Dependencies
+# --------------------------
+Flask==2.3.3
+# Lightweight WSGI web application framework for the web interface
+# Provides REST API endpoints and HTML template rendering
+
+Werkzeug==2.3.7
+# WSGI utilities library, dependency of Flask
+# Handles HTTP request/response processing
+
+Jinja2==3.1.2
+# Template engine for Flask web interface
+# Renders HTML templates with dynamic content
+
+MarkupSafe==2.1.3
+# String handling library for secure HTML rendering
+# Prevents XSS attacks in web interface
+
+# Optional Dependencies for Enhanced Features
+# -------------------------------------------
+
+# Uncomment the following for advanced log analysis features:
+
+# matplotlib==3.7.2
+# # Data visualization library for timeline graphs and charts
+# # Enable with: pip install matplotlib
+# # Used for: Visual timeline analysis, anomaly detection graphs
+
+# pandas==2.0.3
+# # Data analysis library for advanced log processing
+# # Enable with: pip install pandas  
+# # Used for: Large dataset analysis, time-series operations
+
+# numpy==1.24.3
+# # Numerical computing library for statistical analysis
+# # Enable with: pip install numpy
+# # Used for: Advanced anomaly detection algorithms
+
+# scikit-learn==1.3.0
+# # Machine learning library for advanced anomaly detection
+# # Enable with: pip install scikit-learn
+# # Used for: ML-based pattern recognition, clustering
+
+# Development and Testing (Optional)
+# ----------------------------------
+
+# pytest==7.4.0
+# # Testing framework for unit tests
+# # Enable with: pip install pytest
+
+# black==23.7.0
+# # Code formatter for consistent Python style
+# # Enable with: pip install black
+
+# System Requirements
+# ------------------
+# - Python 3.7 or higher
+# - Minimum 512MB RAM (1GB+ recommended for large log files)
+# - 100MB+ disk space for database storage
+# - Windows 10/11, Linux, or macOS
+
+# Installation Commands
+# --------------------
+# 
+# Basic installation:
+#   pip install -r requirements.txt
+#
+# With optional visualization:
+#   pip install -r requirements.txt matplotlib pandas numpy
+#
+# Full development environment:
+#   pip install -r requirements.txt matplotlib pandas numpy scikit-learn pytest black
+#
+# Virtual environment setup (recommended):
+#   python -m venv log-parser-env
+#   source log-parser-env/bin/activate  # Linux/Mac
+#   log-parser-env\Scripts\activate     # Windows
+#   pip install -r requirements.txt
+
+# Usage Notes
+# -----------
+# 
+# 1. The core tool works with built-in Python libraries only
+# 2. Flask is required for the web interface
+# 3. Optional libraries enhance functionality but are not required
+# 4. Large log files (>100MB) benefit from pandas/numpy
+# 5. Real-time monitoring requires additional system permissions
+#
+# For educational use only - ensure proper authorization before analyzing logs.

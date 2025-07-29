@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Parser - Intelligent Log Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="logo">📊</div>
+                    <div>
+                        <h1>Log Parser</h1>
+                        <p class="header-subtitle">Intelligent Log Analysis with Pattern Recognition & Anomaly Detection</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="total-entries">0</span>
+                        <span class="stat-label">Entries Analyzed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="threats-found">0</span>
+                        <span class="stat-label">Threats Detected</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="anomalies-found">0</span>
+                        <span class="stat-label">Anomalies Found</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="upload">📁 Upload & Parse</button>
+            <button class="tab-btn" data-tab="analysis">🔍 Analysis Results</button>
+            <button class="tab-btn" data-tab="threats">🛡️ Security Analysis</button>
+            <button class="tab-btn" data-tab="search">🔎 Search Logs</button>
+            <button class="tab-btn" data-tab="timeline">📈 Timeline View</button>
+            <button class="tab-btn" data-tab="reports">📊 Generate Reports</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            
+            <!-- Upload & Parse Tab -->
+            <div class="tab-panel active" id="upload-panel">
+                <div class="panel-header">
+                    <h2>📁 Upload Log Files</h2>
+                    <p>Upload log files for intelligent analysis with pattern recognition and threat detection</p>
+                </div>
+                
+                <div class="upload-section">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-content">
+                            <div class="upload-icon">📤</div>
+                            <h3>Drag & Drop Log Files Here</h3>
+                            <p>or <button class="upload-btn" id="browse-btn">Browse Files</button></p>
+                            <div class="upload-info">
+                                <p>Supported formats: .log, .txt, .access, .error, .gz, .zip, .json</p>
+                                <p>Maximum file size: 100MB per file</p>
+                            </div>
+                        </div>
+                        <input type="file" id="file-input" multiple accept=".log,.txt,.access,.error,.out,.syslog,.gz,.zip,.json,.csv,.tsv" style="display: none;">
+                    </div>
+                    
+                    <div class="upload-options">
+                        <div class="option-group">
+                            <label for="log-format">Log Format:</label>
+                            <select id="log-format">
+                                <option value="auto">Auto-detect</option>
+                                <option value="apache_common">Apache Common</option>
+                                <option value="apache_combined">Apache Combined</option>
+                                <option value="nginx_access">Nginx Access</option>
+                                <option value="syslog">Syslog</option>
+                                <option value="windows_event">Windows Event Log</option>
+                                <option value="custom">Custom Format</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="encoding">File Encoding:</label>
+                            <select id="encoding">
+                                <option value="utf-8">UTF-8</option>
+                                <option value="ascii">ASCII</option>
+                                <option value="latin-1">Latin-1</option>
+                                <option value="cp1252">Windows-1252</option>
+                            </select>
+                        </div>
+                        
+                        <button class="action-btn primary" id="analyze-btn" disabled>
+                            <span class="btn-icon">🔍</span>
+                            Start Analysis
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="files-list" id="files-list" style="display: none;">
+                    <h3>📂 Uploaded Files</h3>
+                    <div class="files-container" id="files-container"></div>
+                </div>
+                
+                <div class="progress-section" id="progress-section" style="display: none;">
+                    <h3>⚡ Analysis Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">Preparing analysis...</div>
+                </div>
+            </div>
+            
+            <!-- Analysis Results Tab -->
+            <div class="tab-panel" id="analysis-panel">
+                <div class="panel-header">
+                    <h2>🔍 Analysis Results</h2>
+                    <p>Comprehensive log analysis with statistical insights and pattern recognition</p>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>📊 Overview Statistics</h3>
+                        <div class="stats-grid" id="overview-stats">
+                            <div class="stat-box">
+                                <span class="stat-number">-</span>
+                                <span class="stat-desc">Files Analyzed</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">-</span>
+                                <span class="stat-desc">Total Entries</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">-</span>
+                                <span class="stat-desc">Processing Time</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">-</span>
+                                <span class="stat-desc">Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>🌐 Top IP Addresses</h3>
+                        <div class="list-container" id="top-ips">
+                            <p class="no-data">No data available. Please run analysis first.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>📋 Status Code Distribution</h3>
+                        <div class="list-container" id="status-codes">
+                            <p class="no-data">No data available. Please run analysis first.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>🤖 User Agent Analysis</h3>
+                        <div class="list-container" id="user-agents">
+                            <p class="no-data">No data available. Please run analysis first.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Analysis Tab -->
+            <div class="tab-panel" id="threats-panel">
+                <div class="panel-header">
+                    <h2>🛡️ Security Analysis</h2>
+                    <p>Advanced threat detection and anomaly identification</p>
+                </div>
+                
+                <div class="security-controls">
+                    <button class="action-btn secondary" id="detect-anomalies-btn">
+                        <span class="btn-icon">🔍</span>
+                        Detect Anomalies
+                    </button>
+                    
+                    <div class="option-group">
+                        <label for="anomaly-type">Analysis Type:</label>
+                        <select id="anomaly-type">
+                            <option value="statistical">Statistical Analysis</option>
+                            <option value="temporal">Temporal Patterns</option>
+                            <option value="behavioral">Behavioral Analysis</option>
+                            <option value="all">Comprehensive Analysis</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="security-results">
+                    <div class="result-card">
+                        <h3>⚠️ Threat Summary</h3>
+                        <div class="threat-summary" id="threat-summary">
+                            <p class="no-data">No threat analysis available. Please run analysis first.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>🚨 Detected Anomalies</h3>
+                        <div class="anomalies-container" id="anomalies-container">
+                            <p class="no-data">Run anomaly detection to see potential security issues.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>🎯 Attack Patterns</h3>
+                        <div class="patterns-container" id="patterns-container">
+                            <div class="pattern-item">
+                                <div class="pattern-type">SQL Injection</div>
+                                <div class="pattern-count" data-pattern="sql_injection">0</div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-type">XSS Attempts</div>
+                                <div class="pattern-count" data-pattern="xss_attempts">0</div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-type">Brute Force</div>
+                                <div class="pattern-count" data-pattern="brute_force">0</div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-type">Directory Traversal</div>
+                                <div class="pattern-count" data-pattern="directory_traversal">0</div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-type">Command Injection</div>
+                                <div class="pattern-count" data-pattern="command_injection">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Tab -->
+            <div class="tab-panel" id="search-panel">
+                <div class="panel-header">
+                    <h2>🔎 Search Logs</h2>
+                    <p>Advanced search with regex, text, and specialized filters</p>
+                </div>
+                
+                <div class="search-controls">
+                    <div class="search-input-group">
+                        <input type="text" id="search-query" placeholder="Enter search query..." class="search-input">
+                        <button class="action-btn primary" id="search-btn">
+                            <span class="btn-icon">🔍</span>
+                            Search
+                        </button>
+                    </div>
+                    
+                    <div class="search-options">
+                        <div class="option-group">
+                            <label for="search-type">Search Type:</label>
+                            <select id="search-type">
+                                <option value="text">Text Search</option>
+                                <option value="regex">Regular Expression</option>
+                                <option value="ip">IP Address</option>
+                                <option value="status">Status Code</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="result-limit">Result Limit:</label>
+                            <select id="result-limit">
+                                <option value="50">50 results</option>
+                                <option value="100" selected>100 results</option>
+                                <option value="500">500 results</option>
+                                <option value="1000">1000 results</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="search-results" id="search-results">
+                    <div class="result-card">
+                        <div class="search-summary" id="search-summary" style="display: none;">
+                            <h3>🎯 Search Results</h3>
+                            <p>Found <span id="search-count">0</span> matches for "<span id="search-term"></span>"</p>
+                        </div>
+                        
+                        <div class="search-entries" id="search-entries">
+                            <p class="no-data">Enter a search query to find specific log entries.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline Tab -->
+            <div class="tab-panel" id="timeline-panel">
+                <div class="panel-header">
+                    <h2>📈 Timeline Analysis</h2>
+                    <p>Temporal analysis and event timeline visualization</p>
+                    
+                    <button class="action-btn secondary" id="generate-timeline-btn">
+                        <span class="btn-icon">📊</span>
+                        Generate Timeline
+                    </button>
+                </div>
+                
+                <div class="timeline-results">
+                    <div class="result-card">
+                        <h3>📅 Time Range Analysis</h3>
+                        <div class="timeline-summary" id="timeline-summary">
+                            <p class="no-data">Generate timeline to see temporal analysis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>⏰ Hourly Distribution</h3>
+                        <div class="hourly-chart" id="hourly-chart">
+                            <p class="no-data">Timeline data not available.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>📊 Event Timeline</h3>
+                        <div class="timeline-events" id="timeline-events">
+                            <p class="no-data">Timeline events will appear here after generation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Tab -->
+            <div class="tab-panel" id="reports-panel">
+                <div class="panel-header">
+                    <h2>📊 Generate Reports</h2>
+                    <p>Export comprehensive analysis reports in multiple formats</p>
+                </div>
+                
+                <div class="report-controls">
+                    <div class="format-options">
+                        <div class="format-card" data-format="json">
+                            <div class="format-icon">{ }</div>
+                            <h3>JSON Report</h3>
+                            <p>Machine-readable format for integration</p>
+                            <button class="format-btn" data-format="json">Generate JSON</button>
+                        </div>
+                        
+                        <div class="format-card" data-format="csv">
+                            <div class="format-icon">📋</div>
+                            <h3>CSV Report</h3>
+                            <p>Spreadsheet-compatible tabular data</p>
+                            <button class="format-btn" data-format="csv">Generate CSV</button>
+                        </div>
+                        
+                        <div class="format-card" data-format="html">
+                            <div class="format-icon">🌐</div>
+                            <h3>HTML Report</h3>
+                            <p>Interactive web-based report</p>
+                            <button class="format-btn" data-format="html">Generate HTML</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="generated-reports" id="generated-reports">
+                    <div class="result-card">
+                        <h3>📁 Generated Reports</h3>
+                        <div class="reports-list" id="reports-list">
+                            <p class="no-data">No reports generated yet. Click a format above to create a report.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <!-- Status Messages -->
+        <div class="status-messages" id="status-messages"></div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="tool-info">
+                    <h4>Log Parser v1.0</h4>
+                    <p>Intelligent log analysis with pattern recognition and anomaly detection</p>
+                </div>
+                <div class="footer-links">
+                    <p><strong>Educational Use Only</strong> - Ensure proper authorization before analyzing logs</p>
+                    <p>Supports: Apache, Nginx, Syslog, Windows Event Logs, and custom formats</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
