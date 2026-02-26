@@ -1,6 +1,6 @@
-# Log Parser - Intelligent Log Analysis Tool
+# Log Parser - Practical Log Analysis Tool
 
-**Advanced log analysis with pattern recognition, anomaly detection, and comprehensive security reporting**
+**Practical log analysis with regex-based threat detection, basic statistical anomaly detection, and security reporting**
 
 [![Version](https://img.shields.io/badge/version-1.0-blue.svg)](https://github.com/sammtan/log-parser)
 [![Python](https://img.shields.io/badge/python-3.7+-green.svg)](https://python.org)
@@ -9,19 +9,18 @@
 
 ## 🔍 Overview
 
-The Log Parser is a sophisticated cybersecurity tool designed for intelligent analysis of log files with advanced pattern recognition, anomaly detection, and comprehensive reporting capabilities. Built for educational purposes and authorized security analysis, it provides both command-line and web-based interfaces for comprehensive log investigation.
+The Log Parser is a practical cybersecurity tool for analyzing log files using regex-based threat detection and basic statistical anomaly detection. Built for educational purposes and authorized security analysis, it provides both command-line and web-based interfaces for log investigation.
 
 ### ✨ Key Features
 
 - **🎯 Multi-Format Support**: Apache, Nginx, Syslog, Windows Event Logs, and custom formats
-- **🛡️ Advanced Threat Detection**: SQL injection, XSS, brute force, directory traversal, command injection
-- **📊 Statistical Anomaly Detection**: Z-score analysis, behavioral pattern recognition, traffic analysis
-- **⏰ Timeline Analysis**: Temporal pattern detection, event correlation, attack timeline reconstruction
-- **🔍 Intelligent Search**: Text, regex, IP address, and status code filtering with advanced queries
-- **📈 Real-time Analysis**: Live processing with progress tracking and interactive feedback
-- **🌐 Professional Web Interface**: Drag-and-drop uploads, tabbed navigation, responsive design
-- **📋 Multi-Format Reporting**: JSON, CSV, HTML exports with comprehensive analysis results
-- **💾 Scalable Storage**: SQLite database integration for efficient large-scale log processing
+- **🛡️ Regex-Based Threat Detection**: SQL injection, XSS, brute force, directory traversal, command injection
+- **📊 Statistical Anomaly Detection**: Z-score analysis on IP request frequency and error rates
+- **⏰ Basic Timeline Analysis**: Hourly activity distribution and status code tracking
+- **🔍 Search**: Text, regex, IP address, and status code filtering
+- **🌐 Web Interface**: Drag-and-drop uploads, tabbed navigation, responsive design
+- **📋 Multi-Format Reporting**: JSON, CSV, HTML exports with analysis results
+- **💾 SQLite Storage**: Database integration for log storage and querying
 
 ---
 
@@ -217,10 +216,8 @@ The professional web interface provides intuitive access to all log analysis fea
 
 **3. Security Analysis Tab**
 - **Threat pattern detection** across multiple attack vectors
-- **Anomaly detection** with configurable analysis types
-- **Security event correlation** and risk assessment
+- **Anomaly detection** with configurable analysis types (statistical and basic behavioral)
 - **Attack pattern visualization** with severity indicators
-- **Real-time threat intelligence** integration
 
 **4. Search & Filter Tab**
 - **Advanced search capabilities** with multiple query types
@@ -249,83 +246,65 @@ The professional web interface provides intuitive access to all log analysis fea
 
 ### Threat Detection Patterns
 
-The Log Parser includes sophisticated pattern recognition for common security threats:
+The Log Parser uses regex pattern matching to detect common security threats:
 
 #### SQL Injection Detection
 - **Union-based attacks**: `UNION SELECT` statements
-- **Boolean-based attacks**: `OR 1=1` conditions
-- **Time-based attacks**: `SLEEP()` and `WAITFOR` functions
-- **Error-based attacks**: Database error exploitation
-- **Stacked queries**: Multiple statement execution
+- **Boolean-based attacks**: `OR '1'='1'` conditions
+- **Stacked queries**: Multiple statement execution with `;`
+- **Exec/stored procedures**: `exec()`, `xp_`, `sp_` calls
 
 #### Cross-Site Scripting (XSS)
-- **Reflected XSS**: Script injection in parameters
-- **Stored XSS**: Persistent script injection
-- **DOM-based XSS**: Client-side script manipulation
-- **Event handler injection**: `onclick`, `onload` events
+- **Script tag injection**: `<script>` tags
 - **JavaScript protocol**: `javascript:` URI schemes
+- **Event handler injection**: `onload`, `onerror`, `onclick`, `onmouseover`
+- **Iframe injection**: `<iframe>` elements
+- **Eval calls**: `eval()` execution
 
 #### Brute Force Attacks
-- **Authentication failures**: Failed login patterns
-- **Password spraying**: Multiple account targeting
-- **Credential stuffing**: Automated login attempts
-- **Account lockout events**: Repeated failure tracking
-- **Timing pattern analysis**: Request frequency detection
+- **Authentication failures**: `failed login`, `authentication failure` patterns
+- **Invalid user attempts**: `invalid user` patterns
+- **Login failure patterns**: `password incorrect`, `login incorrect`
 
 #### Directory Traversal
-- **Path traversal sequences**: `../` and `..\\` patterns
-- **URL encoded traversal**: `%2e%2e%2f` sequences
-- **Double encoding**: Nested encoding attempts
-- **Null byte injection**: Path manipulation techniques
-- **Absolute path access**: Direct file system access
+- **Path traversal sequences**: `../` and `..\` patterns
+- **URL encoded traversal**: `%2e%2e%2f` and `%2e%2e%5c` sequences
 
 #### Command Injection
-- **Shell command separators**: `;`, `|`, `&&` operators
+- **Shell command separators**: `;`, `|`, `&&` with common commands
 - **Command substitution**: Backticks and `$()` syntax
-- **System command execution**: `system()`, `exec()` calls
-- **File manipulation**: `cat`, `ls`, `wget` commands
-- **Network operations**: `nc`, `curl`, `ping` activities
+- **Network/file commands**: `ls`, `cat`, `wget`, `curl`, `nc`, `netcat`
 
 ### Anomaly Detection Methods
 
 #### Statistical Analysis
 - **Z-score calculation**: Standard deviation-based outlier detection
-- **Request volume analysis**: Unusual traffic pattern identification
-- **Response time anomalies**: Performance degradation detection
+- **Request volume analysis**: Unusual IP request frequency identification
 - **Error rate monitoring**: Elevated failure rate identification
 - **IP behavior analysis**: Suspicious source identification
 
 #### Behavioral Analysis
-- **User agent patterns**: Bot and crawler detection
-- **Request sequence analysis**: Automated behavior identification
-- **Session duration tracking**: Abnormal session patterns
-- **Geographic distribution**: Unusual location access patterns
-- **Time-based patterns**: Off-hours activity detection
+> ⚠️ **Limited implementation**: Currently only detects high-volume bot/crawler/spider/scraper user-agents (>100 requests). Session tracking, geographic distribution, off-hours activity, and time-based behavioral patterns are **not implemented**.
+- **User agent patterns**: Bot and crawler detection (checks for "bot", "crawler", "spider", "scraper" keywords with request count > 100)
 
 #### Temporal Analysis
-- **Time series analysis**: Trend identification and forecasting
-- **Seasonal pattern detection**: Regular activity cycles
-- **Burst detection**: Sudden activity spikes
-- **Periodicity analysis**: Regular interval identification
-- **Event correlation**: Time-based attack pattern linking
+> ❌ **Placeholder only**: This feature returns a static informational message and does not perform any real time-series analysis. Time series analysis, seasonal pattern detection, burst detection, periodicity analysis, and event correlation are **not implemented**.
 
 ---
 
 ## 📊 Performance Benchmarks
 
 ### Analysis Performance
-Based on comprehensive testing with various log file sizes and formats:
+Based on testing with sample log data:
 
 | Metric | Performance | Notes |
 |--------|-------------|-------|
-| **File Analysis Speed** | 50-100 files/second | Standard document processing |
-| **Hash Computation Rate** | All 4 algorithms in <20ms | MD5, SHA1, SHA256, SHA512 |
 | **Pattern Matching Speed** | 1000+ patterns/second | Regular expression processing |
 | **Database Operations** | <5ms per query | SQLite insert/select operations |
 | **Memory Usage** | <50MB during analysis | Efficient streaming processing |
-| **Large File Support** | 100MB+ files | Compressed file support included |
+| **Large File Support** | 100MB+ files | Standard file processing |
 
-### Comprehensive Test Results - Verified ✅
+### Test Results
 
 **Test Environment**: Windows 11, Python 3.13, 16GB RAM, SSD  
 **Test Date**: July 29, 2025  
@@ -402,8 +381,9 @@ python src/log_parser.py report --format json --output test_report.json
 
 **Test 8: Performance Benchmarks**
 ```
-✅ PASSED - Performance targets exceeded
-- Processing Rate: 195.4 entries/second (target: 50-100/sec)
+✅ PASSED - Performance targets met on self-generated sample data
+- Processing Rate: 195.4 entries/second (measured on 10 synthetic sample entries)
+  ⚠️ Note: This rate was measured using self-generated test data; real-world performance will vary
 - Memory Usage: <10MB during processing (target: <50MB)
 - Database Operations: <5ms per entry (SQLite efficiency confirmed)
 - Response Time: 0.03s for 10 entries (sub-second processing)
@@ -445,17 +425,18 @@ python src/log_parser.py report --format json --output test_report.json
   - app.js: 818 lines (29.1 KB) - Interactive frontend
 ```
 
-#### Performance Summary - Actual Results
+#### Performance Summary - Sample Data Results
 
-| Metric | Test Result | Target | Status |
-|--------|-------------|---------|---------|
-| **Processing Speed** | 195.4 entries/sec | 50-100/sec | ✅ EXCEEDED |
-| **Memory Usage** | <10MB | <50MB | ✅ EXCELLENT |
-| **Threat Detection** | 4/4 threats found | 100% accuracy | ✅ PERFECT |
-| **Response Time** | 0.03s per analysis | <1s | ✅ OPTIMAL |
-| **Database Efficiency** | <5ms per operation | <10ms | ✅ SUPERIOR |
-| **API Endpoints** | 11 routes active | All functional | ✅ COMPLETE |
-| **Error Rate** | 0% failures | <5% acceptable | ✅ FLAWLESS |
+> ⚠️ **Note**: These results were measured using self-generated synthetic test data (10 log entries). Results with real-world log files will vary.
+
+| Metric | Test Result | Notes |
+|--------|-------------|---------|
+| **Processing Speed** | 195.4 entries/sec | On 10 synthetic sample entries |
+| **Memory Usage** | <10MB | During sample processing |
+| **Threat Detection** | 4/4 threats found | In synthetic sample data |
+| **Response Time** | 0.03s per analysis | For 10-entry sample |
+| **Database Efficiency** | <5ms per operation | SQLite operations |
+| **API Endpoints** | 11 routes active | All functional |
 
 ### Scalability Metrics
 
@@ -951,16 +932,23 @@ head -10 your_log_file.log  # Linux/macOS
 
 ## 📈 Conclusion
 
-The Log Parser represents a comprehensive educational tool for understanding modern cybersecurity analysis techniques, combining theoretical knowledge with practical implementation experience. Through its sophisticated architecture and professional-grade capabilities, it provides an invaluable learning platform for students, researchers, and security professionals.
+The Log Parser is a practical educational tool for log file analysis, combining regex-based threat detection with basic statistical anomaly detection. It provides a hands-on platform for understanding security log analysis techniques.
 
-### Key Achievements
+### Key Capabilities
 
-- **Comprehensive Analysis Engine**: Multi-format support with intelligent parsing
-- **Advanced Threat Detection**: State-of-the-art pattern recognition and anomaly detection
-- **Professional Web Interface**: Modern, responsive design with intuitive navigation
-- **Educational Excellence**: Extensive documentation and practical examples
-- **Performance Optimization**: Efficient algorithms and scalable architecture
-- **Security Best Practices**: Secure design with privacy protection and input validation
+- **Multi-Format Log Parsing**: Supports Apache, Nginx, Syslog, Windows Event Log, JSON, firewall, and custom formats
+- **Regex-Based Threat Detection**: Pattern matching for SQL injection, XSS, brute force, directory traversal, and command injection
+- **Basic Statistical Anomaly Detection**: Z-score analysis on IP request frequency and error rates
+- **Web Interface**: Flask-based UI with file upload, search, and report generation
+- **Report Generation**: JSON, CSV, and HTML output formats
+- **CLI**: Five subcommands for analysis, search, anomaly detection, reporting, and timeline view
+
+### Known Limitations
+
+- **Temporal analysis** is a placeholder — returns a static message only
+- **Behavioral analysis** only detects bot-keyword user-agents with high request counts
+- **No threat intelligence integration** — detection is static regex patterns only
+- **No geographic, session, or off-hours analysis**
 
 ### Educational Impact
 
@@ -979,8 +967,8 @@ The Log Parser serves as both a functional security analysis tool and an educati
 
 ---
 
-**Log Parser v1.0** - Intelligent Log Analysis for Educational Excellence  
+**Log Parser v1.0** - Practical Log Analysis for Educational Use  
 **Author**: Samuel Tan | **License**: Educational Use Only  
-**Documentation**: Complete | **Testing**: Verified | **Status**: Production Ready
+**Documentation**: Complete | **Status**: Educational/Development
 
-*Educational cybersecurity tool demonstrating advanced log analysis techniques and professional software development practices.*
+*Educational cybersecurity tool demonstrating regex-based threat detection and basic statistical log analysis.*
