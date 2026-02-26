@@ -1,6 +1,6 @@
-# Log Parser - Intelligent Log Analysis Tool
+# Log Parser - Log Analysis Tool
 
-**Advanced log analysis with pattern recognition, anomaly detection, and comprehensive security reporting**
+**Log analysis with pattern-based threat detection, basic statistical anomaly detection, and comprehensive reporting**
 
 [![Version](https://img.shields.io/badge/version-1.0-blue.svg)](https://github.com/sammtan/log-parser)
 [![Python](https://img.shields.io/badge/python-3.7+-green.svg)](https://python.org)
@@ -9,14 +9,14 @@
 
 ## 🔍 Overview
 
-The Log Parser is a sophisticated cybersecurity tool designed for intelligent analysis of log files with advanced pattern recognition, anomaly detection, and comprehensive reporting capabilities. Built for educational purposes and authorized security analysis, it provides both command-line and web-based interfaces for comprehensive log investigation.
+The Log Parser is a cybersecurity tool designed for analysis of log files with pattern-based threat detection, basic anomaly detection, and comprehensive reporting capabilities. Built for educational purposes and authorized security analysis, it provides both command-line and web-based interfaces for log investigation.
 
 ### ✨ Key Features
 
 - **🎯 Multi-Format Support**: Apache, Nginx, Syslog, Windows Event Logs, and custom formats
-- **🛡️ Advanced Threat Detection**: SQL injection, XSS, brute force, directory traversal, command injection
-- **📊 Statistical Anomaly Detection**: Z-score analysis, behavioral pattern recognition, traffic analysis
-- **⏰ Timeline Analysis**: Temporal pattern detection, event correlation, attack timeline reconstruction
+- **🛡️ Pattern-Based Threat Detection**: SQL injection, XSS, brute force, directory traversal, command injection via regex patterns
+- **📊 Statistical Anomaly Detection**: Z-score analysis on IP request frequency and HTTP error rates
+- **⏰ Timeline Analysis**: Chronological event ordering, hourly activity distribution, status code timelines
 - **🔍 Intelligent Search**: Text, regex, IP address, and status code filtering with advanced queries
 - **📈 Real-time Analysis**: Live processing with progress tracking and interactive feedback
 - **🌐 Professional Web Interface**: Drag-and-drop uploads, tabbed navigation, responsive design
@@ -220,7 +220,6 @@ The professional web interface provides intuitive access to all log analysis fea
 - **Anomaly detection** with configurable analysis types
 - **Security event correlation** and risk assessment
 - **Attack pattern visualization** with severity indicators
-- **Real-time threat intelligence** integration
 
 **4. Search & Filter Tab**
 - **Advanced search capabilities** with multiple query types
@@ -249,7 +248,7 @@ The professional web interface provides intuitive access to all log analysis fea
 
 ### Threat Detection Patterns
 
-The Log Parser includes sophisticated pattern recognition for common security threats:
+The Log Parser includes regex-based pattern recognition for common security threats:
 
 #### SQL Injection Detection
 - **Union-based attacks**: `UNION SELECT` statements
@@ -296,25 +295,29 @@ The Log Parser includes sophisticated pattern recognition for common security th
 - **IP behavior analysis**: Suspicious source identification
 
 #### Behavioral Analysis
-- **User agent patterns**: Bot and crawler detection
-- **Request sequence analysis**: Automated behavior identification
-- **Session duration tracking**: Abnormal session patterns
-- **Geographic distribution**: Unusual location access patterns
-- **Time-based patterns**: Off-hours activity detection
+- **User agent patterns**: Bot and crawler detection (user-agents containing "bot", "crawler", "spider", or "scraper" with high request counts)
+- **Request sequence analysis**: 🚧 Not Yet Implemented
+- **Session duration tracking**: 🚧 Not Yet Implemented
+- **Geographic distribution**: 🚧 Not Yet Implemented
+- **Time-based patterns**: 🚧 Not Yet Implemented
 
 #### Temporal Analysis
-- **Time series analysis**: Trend identification and forecasting
-- **Seasonal pattern detection**: Regular activity cycles
-- **Burst detection**: Sudden activity spikes
-- **Periodicity analysis**: Regular interval identification
-- **Event correlation**: Time-based attack pattern linking
+> ⚠️ **Note**: The temporal anomaly detection feature is not yet implemented. The `--type temporal` option currently returns a placeholder response. The items below are planned for a future release.
+
+- **Time series analysis**: 🚧 Not Yet Implemented
+- **Seasonal pattern detection**: 🚧 Not Yet Implemented
+- **Burst detection**: 🚧 Not Yet Implemented
+- **Periodicity analysis**: 🚧 Not Yet Implemented
+- **Event correlation**: 🚧 Not Yet Implemented
 
 ---
 
 ## 📊 Performance Benchmarks
 
 ### Analysis Performance
-Based on comprehensive testing with various log file sizes and formats:
+Based on testing with the synthetic log files generated by `examples/basic_usage.py`:
+
+> ⚠️ **Note**: The benchmarks below were measured against auto-generated sample logs, not real-world production log files. Results may vary significantly with different log content, file sizes, and hardware.
 
 | Metric | Performance | Notes |
 |--------|-------------|-------|
@@ -402,11 +405,12 @@ python src/log_parser.py report --format json --output test_report.json
 
 **Test 8: Performance Benchmarks**
 ```
-✅ PASSED - Performance targets exceeded
+✅ PASSED - Performance targets exceeded (synthetic data)
 - Processing Rate: 195.4 entries/second (target: 50-100/sec)
 - Memory Usage: <10MB during processing (target: <50MB)
 - Database Operations: <5ms per entry (SQLite efficiency confirmed)
 - Response Time: 0.03s for 10 entries (sub-second processing)
+Note: Measured on auto-generated sample logs (examples/basic_usage.py), not real-world data.
 ```
 
 **Test 9: Web Interface Validation**
@@ -456,6 +460,8 @@ python src/log_parser.py report --format json --output test_report.json
 | **Database Efficiency** | <5ms per operation | <10ms | ✅ SUPERIOR |
 | **API Endpoints** | 11 routes active | All functional | ✅ COMPLETE |
 | **Error Rate** | 0% failures | <5% acceptable | ✅ FLAWLESS |
+
+> ⚠️ Processing speed and error rate figures were measured against synthetic log data generated by `examples/basic_usage.py`.
 
 ### Scalability Metrics
 
@@ -570,7 +576,7 @@ The Log Parser serves as an excellent educational tool for understanding:
 
 #### Cybersecurity Concepts
 - **Log analysis fundamentals** and security monitoring principles
-- **Attack pattern recognition** and threat intelligence application
+- **Attack pattern recognition** and regex-based threat detection
 - **Anomaly detection methods** and statistical analysis techniques
 - **Incident response procedures** and forensic investigation methods
 - **Security tool development** and automation techniques
@@ -603,7 +609,7 @@ The Log Parser serves as an excellent educational tool for understanding:
 - **Digital Forensics**: Evidence collection and timeline reconstruction
 - **Incident Response**: Threat detection and investigation procedures
 - **Ethical Hacking**: Attack pattern recognition and defensive measures
-- **Security Analytics**: Statistical analysis and threat intelligence
+- **Security Analytics**: Statistical analysis and pattern-based threat detection
 
 #### Information Systems
 - **Systems Administration**: Log management and troubleshooting
@@ -951,16 +957,22 @@ head -10 your_log_file.log  # Linux/macOS
 
 ## 📈 Conclusion
 
-The Log Parser represents a comprehensive educational tool for understanding modern cybersecurity analysis techniques, combining theoretical knowledge with practical implementation experience. Through its sophisticated architecture and professional-grade capabilities, it provides an invaluable learning platform for students, researchers, and security professionals.
+The Log Parser is a practical educational tool for log analysis and pattern-based security detection. It accurately parses multiple log formats, stores results in SQLite, detects common attack patterns via regex, and provides both a CLI and web interface for interacting with results.
 
 ### Key Achievements
 
-- **Comprehensive Analysis Engine**: Multi-format support with intelligent parsing
-- **Advanced Threat Detection**: State-of-the-art pattern recognition and anomaly detection
+- **Multi-Format Log Parsing**: Apache, nginx, syslog, firewall, Windows Event Log, and custom formats
+- **Pattern-Based Threat Detection**: Regex detection for SQL injection, XSS, brute force, directory traversal, and command injection
+- **Statistical Anomaly Detection**: Z-score analysis on IP request frequency and HTTP error rates
 - **Professional Web Interface**: Modern, responsive design with intuitive navigation
-- **Educational Excellence**: Extensive documentation and practical examples
-- **Performance Optimization**: Efficient algorithms and scalable architecture
+- **Multi-Format Reporting**: JSON, CSV, and HTML export
 - **Security Best Practices**: Secure design with privacy protection and input validation
+
+### Known Limitations
+
+- **Temporal anomaly detection** (`--type temporal`) is a placeholder and not yet implemented
+- **Behavioral analysis** (`--type behavioral`) only detects high-volume bot user-agents; it does not perform request sequence analysis, session duration tracking, geographic distribution analysis, or time-based pattern detection
+- **No threat intelligence feed integration**: threat detection is entirely regex/pattern-based
 
 ### Educational Impact
 
@@ -973,14 +985,14 @@ This tool demonstrates the intersection of software engineering, cybersecurity, 
 
 ### Final Notes
 
-The Log Parser serves as both a functional security analysis tool and an educational platform for understanding the complexities of modern cybersecurity operations. Its comprehensive feature set, professional architecture, and extensive documentation make it an ideal choice for academic institutions, training programs, and individual learning environments.
+The Log Parser serves as both a functional security analysis tool and an educational platform. It is best described as a **log analysis tool with pattern-based threat detection and basic statistical anomaly detection**.
 
 **Remember**: This tool is designed for educational purposes and authorized security testing only. Always ensure proper authorization before analyzing log files from any system, and comply with all applicable laws and regulations regarding data privacy and system access.
 
 ---
 
-**Log Parser v1.0** - Intelligent Log Analysis for Educational Excellence  
+**Log Parser v1.0** - Log Analysis with Pattern-Based Threat Detection  
 **Author**: Samuel Tan | **License**: Educational Use Only  
-**Documentation**: Complete | **Testing**: Verified | **Status**: Production Ready
+**Documentation**: Complete | **Status**: Educational / Development
 
-*Educational cybersecurity tool demonstrating advanced log analysis techniques and professional software development practices.*
+*Educational cybersecurity tool demonstrating log analysis, regex-based threat detection, and statistical anomaly detection.*
